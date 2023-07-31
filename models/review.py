@@ -1,32 +1,25 @@
 #!/usr/bin/python3
-"""Defines the Place class."""
+"""Defines the Review class."""
+from models.base_model import Base
 from models.base_model import BaseModel
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey
+from sqlalchemy import String
+from sqlalchemy.orm import relationship
 
 
-class Place(BaseModel):
-    """Represent a place.
+class Review(BaseModel, Base):
+    """Represents a review for a MySQL database.
+
+    Inherits from SQLAlchemy Base and links to the MySQL table reviews.
+
     Attributes:
-        city_id (str): The City id.
-        user_id (str): The User id.
-        name (str): The name of the place.
-        description (str): The description of the place.
-        number_rooms (int): The number of rooms of the place.
-        number_bathrooms (int): The number of bathrooms of the place.
-        max_guest (int): The maximum number of guests of the place.
-        price_by_night (int): The price by night of the place.
-        latitude (float): The latitude of the place.
-        longitude (float): The longitude of the place.
-        amenity_ids (list): A list of Amenity ids.
+        __tablename__ (str): The name of the MySQL table to store Reviews.
+        text (sqlalchemy String): The review description.
+        place_id (sqlalchemy String): The review's place id.
+        user_id (sqlalchemy String): The review's user id.
     """
-
-    city_id = ""
-    user_id = ""
-    name = ""
-    description = ""
-    number_rooms = 0
-    number_bathrooms = 0
-    max_guest = 0
-    price_by_night = 0
-    latitude = 0.0
-    longitude = 0.0
-    amenity_ids = []
+    __tablename__ = "reviews"
+    text = Column(String(1024), nullable=False)
+    place_id = Column(String(60), ForeignKey("places.id"), nullable=False)
+    user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
